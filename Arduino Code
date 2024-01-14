@@ -1,0 +1,54 @@
+/*
+  Code for Arduino in the salt machine for starship robots
+  This code moves two servos which control the flow rate of salt
+*/
+
+const int servo1 = 2;
+const int servo2 = 4;
+const int potent = A0;
+
+void setup() {
+  pinMode(servo1, OUTPUT);
+  pinMode(servo2, OUTPUT);
+  pinMode(potent, INPUT);
+  Serial.begin(57600);
+}
+
+void loop() {
+  //Switch amount of sand coming out based on potentiometer
+  
+  int signal = analogRead(potent);
+  if(signal < 408){
+    saltFull();
+  } else if(signal < 816) {
+    saltMedium();
+  } else {
+    saltOff();
+  }
+}
+// Code for controlling servos, because the library wouldn't run on this board </3
+// Works by sending a certain pulse every 20ms to the servos to change angle
+void saltFull(){
+  digitalWrite(servo1, HIGH);
+  digitalWrite(servo2, HIGH);
+  delayMicroseconds(2500);
+  digitalWrite(servo1, LOW);
+  digitalWrite(servo2, LOW);
+  delayMicroseconds(17500);
+}
+void saltMedium(){
+  digitalWrite(servo1, HIGH);
+  digitalWrite(servo2, HIGH);
+  delayMicroseconds(2400);
+  digitalWrite(servo1, LOW);
+  digitalWrite(servo2, LOW);
+  delayMicroseconds(17600);
+}
+void saltOff(){
+  digitalWrite(servo1, HIGH);
+  digitalWrite(servo2, HIGH);
+  delayMicroseconds(2250);
+  digitalWrite(servo1, LOW);
+  digitalWrite(servo2, LOW);
+  delayMicroseconds(17750);
+}
